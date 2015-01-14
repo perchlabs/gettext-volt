@@ -25,13 +25,13 @@ function Parser (keywordSpec) {
 
   this.keywordSpec = keywordSpec;
   this.expressionPattern = new RegExp([
-    '({{|~|,|\\(|\\.)',
-    ' {0,3}',
+    '({{|~|,|\\(|\\.|\\?|\:)',
+    ' {0,2}',
     '(' + Object.keys(keywordSpec).map(escapeRegExp).join('|') + ')',
     '\\(',
     '([\\s\\S]*?)',
     '\\)',
-    ' {0,3}',
+    ' {0,2}',
     '(}}|~|,| |\\))'
     ].join(''), 'g');
 }
