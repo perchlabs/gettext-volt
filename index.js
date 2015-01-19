@@ -62,7 +62,7 @@ function Parser (keywordSpec) {
 /**
  * Given a Volt template string returns the list of i18n strings.
  *
- * @param String template The content of a HBS template.
+ * @param String template The content of a Volt template.
  * @return Object The list of translatable strings, the line(s) on which each appears and an optional plural form.
  */
 Parser.prototype.parse = function (template) {

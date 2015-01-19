@@ -11,7 +11,7 @@ describe('Parser', function () {
 
     describe('#parse()', function () {
         it('should return results', function (done) {
-            fs.readFile(__dirname + '/fixtures/template.nunj', {encoding: 'utf8'}, function (err, data) {
+            fs.readFile(__dirname + '/fixtures/template.volt', {encoding: 'utf8'}, function (err, data) {
                 if (err) {
                   throw err;
                 }
@@ -30,7 +30,7 @@ describe('Parser', function () {
           });
 
         it('should return plural results', function (done) {
-            fs.readFile(__dirname + '/fixtures/plural.nunj', {encoding: 'utf8'}, function (err, data) {
+            fs.readFile(__dirname + '/fixtures/plural.volt', {encoding: 'utf8'}, function (err, data) {
                 if (err) {
                   throw err;
                 }
