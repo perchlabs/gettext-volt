@@ -1,12 +1,35 @@
 var newline = /\r?\n|\r/g,
-  escapeRegExp = function (string) {
-      // source: https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
-      return string.replace(/([.*+?^${}()|\[\]\/\\])/g, "\\$1");
-    },
+  escapeRegExp = function (str) {
+    // source: https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
+    return str.replace(/([.*+?^${}()|\[\]\/\\])/g, "\\$1");
+  },
+  trim = function (str) {
+    return str.replace(/^\s+|\s+$/g, '');
+  },
   trimQuotes = function (str) {
-      return str.replace(/^['"]/g, '').replace(/['"]$/g, '');
-    },
-  paramPattern = new RegExp('([\'"][^\'"]*[\'"]|[^\'", ]+)', 'g');
+    return str.replace(/^['"]|['"]$/g, '');
+  },
+  isQuote = function (chr) {
+    return /['"]/.test(chr);
+  },
+  groupParams = function (result, part) {
+    if (result.length > 0) {
+      var last = result[result.length - 1],
+        firstChar = last[0],
+        lastChar = last[last.length - 1];
+
+      if (isQuote(firstChar) && (!isQuote(lastChar) || last[last.length - 2] === '\\')) {
+        // merge with previous
+        result[result.length - 1] += ',' + part;
+      } else {
+        result.push(part);
+      }
+    } else {
+      result.push(part);
+    }
+
+    return result;
+  };
 
 /**
  * Constructor
@@ -14,10 +37,10 @@ var newline = /\r?\n|\r/g,
  */
 function Parser (keywordSpec) {
   keywordSpec = keywordSpec || {
-      _: [0],
-      gettext: [0],
-      ngettext: [0, 1]
-    };
+    _: [0],
+    gettext: [0],
+    ngettext: [0, 1]
+  };
 
   if (typeof keywordSpec !== 'object') {
     throw 'Invalid keyword spec';
@@ -26,14 +49,14 @@ function Parser (keywordSpec) {
   this.keywordSpec = keywordSpec;
   this.expressionPattern = new RegExp([
     '({{|~|,|\\(|\\.|\\?|\:)',
-    ' {0,2}',
+    ' *',
     '(' + Object.keys(keywordSpec).map(escapeRegExp).join('|') + ')',
     '\\(',
     '([\\s\\S]*?)',
     '\\)',
-    ' {0,2}',
-    '(}}|~|,| |\\))'
-    ].join(''), 'g');
+    ' *',
+    '(}}|~|,|\\))'
+  ].join(''), 'g');
 }
 
 /**
@@ -51,7 +74,8 @@ Parser.prototype.parse = function (template) {
 
   while ((match = this.expressionPattern.exec(template)) !== null) {
     keyword = match[2];
-    params = match[3].match(paramPattern).map(trimQuotes);
+
+    params = match[3].split(',').reduce(groupParams, []).map(trim).map(trimQuotes);
 
     msgid = params[this.keywordSpec[keyword][0]];
 
