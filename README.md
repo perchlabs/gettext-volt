@@ -1,3 +1,5 @@
+# gettext-volt [![build status](https://secure.travis-ci.org/perchlayer/gettext-volt.png)](http://travis-ci.org/perchlayer/gettext-volt)
+
 Extract translatable strings from Volt template strings.
 
 It can be used stand-alone or through [gmarty/gettext](https://github.com/gmarty/xgettext).
