@@ -47,15 +47,29 @@ function Parser (keywordSpec) {
   }
 
   this.keywordSpec = keywordSpec;
-  this.expressionPattern = new RegExp([
-    '({{|~|,|\\(|\\.|\\?|\:)',
-    ' *',
+
+  // This isolates translations between braces
+  this.expressionPatternBraces = new RegExp([
+    '{{ *',
     '(' + Object.keys(keywordSpec).map(escapeRegExp).join('|') + ')',
     '\\(',
     '([\\s\\S]*?)',
     '\\)',
-    ' *',
-    '(}}|~|,|\\))'
+    ' *}}'
+  ].join(''), 'g');
+
+  // This isolates everything in the "set" directive
+  this.expressionPatternAssignmentDirective = new RegExp([
+    '{%-{0,1}\\s*set',
+    '([\\s\\S]*?)',
+    '-{0,1}%}'
+  ].join(''), 'g');
+  // This isolates every translation used in a "set" directive
+  this.expressionPatternAssignmentValue = new RegExp([
+    '(' + Object.keys(keywordSpec).map(escapeRegExp).join('|') + ')',
+    '\\(',
+    '([\\s\\S]*?)',
+    '\\)',
   ].join(''), 'g');
 }
 
@@ -66,16 +80,79 @@ function Parser (keywordSpec) {
  * @return Object The list of translatable strings, the line(s) on which each appears and an optional plural form.
  */
 Parser.prototype.parse = function (template) {
+  var resultGroups,
+    resultGroup,
+    msgid,
+    result = {};
+
+  resultGroups = [
+    this.parseBraces(template),
+    this.parseAssignments(template)
+  ];
+
+  // Merge results from different parsre regex formats.
+  for (var i = 0; i < resultGroups.length; i++) {
+    resultGroup = resultGroups[i];
+    for (msgid in resultGroup) {
+      result[msgid] = resultGroup[msgid];
+    }
+  }
+
+  return result;
+};
+
+/**
+ *
+ */
+Parser.prototype.parseBraces = function (template) {
   var result = {},
     match,
     keyword,
     params,
     msgid;
 
-  while ((match = this.expressionPattern.exec(template)) !== null) {
-    keyword = match[2];
+  while ((match = this.expressionPatternBraces.exec(template)) !== null) {
+    keyword = match[1];
 
-    params = match[3].split(',').reduce(groupParams, []).map(trim).map(trimQuotes);
+    params = match[2].split(',').reduce(groupParams, []).map(trim).map(trimQuotes);
+
+    msgid = params[this.keywordSpec[keyword][0]];
+
+    result[msgid] = result[msgid] || {line: []};
+    result[msgid].line.push(template.substr(0, match.index).split(newline).length);
+
+    if (this.keywordSpec[keyword].length > 1) {
+      result[msgid].plural = result[msgid].plural || params[this.keywordSpec[keyword][1]];
+    }
+  }
+
+  return result;
+};
+
+/**
+ *
+ */
+Parser.prototype.parseAssignments = function (template) {
+  var result = {},
+    firstMatches = [],
+
+    assignmentTextArr = [],
+    assignmentMatches,
+    assignmentAllText,
+
+    match,
+    keyword,
+    params,
+    msgid;
+
+  while ((assignmentMatches = this.expressionPatternAssignmentDirective.exec(template)) !== null) {
+    assignmentTextArr.push(assignmentMatches[0]);
+  }
+  assignmentAllText = assignmentTextArr.join("\n");
+
+  while ((match = this.expressionPatternAssignmentValue.exec(assignmentAllText)) !== null) {
+    keyword = match[1];
+    params = match[2].split(',').reduce(groupParams, []).map(trim).map(trimQuotes);
 
     msgid = params[this.keywordSpec[keyword][0]];
 

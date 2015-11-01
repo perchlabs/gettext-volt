@@ -36,12 +36,31 @@ describe('Parser', function () {
                 }
 
                 var result = (new Parser()).parse(data);
-
                 assert.equal(Object.keys(result).length, 2);
                 assert.equal(result['default'].plural, 'defaults');
 
                 done();
               });
           });
+
+        it('should return assignment results', function (done) {
+            fs.readFile(__dirname + '/fixtures/assignment.volt', {encoding: 'utf8'}, function (err, data) {
+                if (err) {
+                  throw err;
+                }
+
+                var result = (new Parser()).parse(data);
+                assert.equal(typeof result, 'object');
+                assert('set literal value' in result);
+                assert('set associative array value 1' in result);
+                assert('set associative array value 2' in result);
+                assert('set word \\"escaped, word\\", with comma' in result);
+                assert("set \\'single escape\\'" in result);
+                assert.equal(Object.keys(result).length, 11);
+
+                done();
+              });
+          });
+
       });
   });
