@@ -1,4 +1,4 @@
-# gettext-volt [![build status](https://secure.travis-ci.org/perchlayer/gettext-volt.png)](http://travis-ci.org/perchlayer/gettext-volt)
+# gettext-volt [![build status](https://secure.travis-ci.org/perchlayer/xgettext-volt-parser.png)](http://travis-ci.org/perchlayer/xgettext-volt-parser)
 
 Extract translatable strings from Volt template strings.
 
