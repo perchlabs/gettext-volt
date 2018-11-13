@@ -1,6 +1,6 @@
 {
   "name": "gettext-volt",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Extract translatable strings from Volt templates",
   "main": "index.js",
   "directories": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/perchlayer/gettext-volt.git"
+    "url": "https://github.com/perch-foundation/gettext-volt.git"
   },
   "keywords": [
     "volt",
@@ -26,13 +26,12 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/perchlayer/gettext-volt/issues"
+    "url": "https://github.com/perch-foundation/gettext-volt/issues"
   },
-  "homepage": "https://github.com/perchlayer/gettext-volt",
+  "homepage": "https://github.com/perch-foundation/gettext-volt",
   "devDependencies": {
     "jshint": "^2.5.10",
     "mocha": "^2.0.1"
   },
-  "readme": "# xgettext-parser-volt [![build status](https://secure.travis-ci.org/perchlayer/gettext-volt.png)](http://travis-ci.org/perchlayer/gettext-volt)\n\nExtract translatable strings from Volt template strings.\n\nIt can be used stand-alone or through [gmarty/gettext](https://github.com/gmarty/xgettext).\n\n### API\n\n#### new Parser(keywordspec)\nCreates a new parser.\nThe `keywordspec` parameter is optional, with the default being:\n```javascript\n{\n  _: [0],\n  gettext: [0],\n  ngettext: [0, 1]\n}\n```\nEach keyword (key) requires array of argument number(s) (value). When multiple argument numbers are specified, expressions using this keyword are treaded as single-plural.\n\n#### .parse(template)\nParses the `template` string for Volt expressions using the keywordspec.\nIt returns an object with this structure:\n```javascript\n{\n  msgid1: {\n    line: [1, 3]\n  },\n  msgid2: {\n    line: [2],\n    plural: 'msgid_plural'\n  }\n}\n```\n",
   "readmeFilename": "README.md"
 }
