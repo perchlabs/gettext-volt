@@ -1,6 +1,6 @@
 {
   "name": "gettext-volt",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Extract translatable strings from Volt templates",
   "main": "index.js",
   "directories": {
