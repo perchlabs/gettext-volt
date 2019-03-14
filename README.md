@@ -1,8 +1,8 @@
-# gettext-volt [![Build Status](https://travis-ci.org/perch-foundation/gettext-volt.svg?branch=master)](https://travis-ci.org/perch-foundation/gettext-volt)
+# gettext-volt [![Build Status](https://travis-ci.org/perchlabs/gettext-volt.svg?branch=master)](https://travis-ci.org/perchlabs/gettext-volt)
 
 Extract translatable strings from Volt template strings.
 
-It can be used stand-alone or through [gmarty/gettext](https://github.com/gmarty/xgettext) or [perch-foundation/xgettext-volt](https://github.com/perch-foundation/xgettext-volt).
+It can be used stand-alone or through [gmarty/gettext](https://github.com/gmarty/xgettext) or [perchlabs/xgettext-volt](https://github.com/perchlabs/xgettext-volt).
 
 ### API
 

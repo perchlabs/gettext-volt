@@ -1,6 +1,6 @@
 {
   "name": "gettext-volt",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Extract translatable strings from Volt templates",
   "main": "index.js",
   "directories": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/perch-foundation/gettext-volt.git"
+    "url": "https://github.com/perchlabs/gettext-volt.git"
   },
   "keywords": [
     "volt",
@@ -26,9 +26,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/perch-foundation/gettext-volt/issues"
+    "url": "https://github.com/perchlabs/gettext-volt/issues"
   },
-  "homepage": "https://github.com/perch-foundation/gettext-volt",
+  "homepage": "https://github.com/perchlabs/gettext-volt",
   "devDependencies": {
     "jshint": "^2.5.10",
     "mocha": "^2.0.1"
