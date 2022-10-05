@@ -2,7 +2,7 @@
 
 Extract translatable strings from Volt template strings.
 
-It can be used stand-alone or through [gmarty/gettext](https://github.com/gmarty/xgettext) or [perchlabs/xgettext-volt](https://github.com/perchlabs/xgettext-volt).
+It can be used stand-alone or through [gmarty/gettext](https://github.com/gmarty/xgettext).
 
 ### API
 
